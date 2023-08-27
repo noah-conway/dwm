@@ -866,8 +866,9 @@ drawbar(Monitor *m)
 			msx = (m->ww - TEXTW(mstext) + lrpad) / 2; /* x position of middle status text */
 			drw_text(drw, msx, 0, TEXTW(mstext) - lrpad, bh, 0, mstext, 0);
 		}
-		tw = TEXTW(rstext) - lrpad + 2; /* 2px right padding */
-		drw_text(drw, m->ww - tw, 0, tw, bh, 0, rstext, 0);
+		tw = TEXTW(rstext); /* 2px right padding */
+		//tw = TEXTW(rstext) - lrpad + 2; /* 2px right padding */
+		drw_text(drw, m->ww - tw, 0, tw, bh, lrpad / 2, rstext, 0);
 	}
 
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
