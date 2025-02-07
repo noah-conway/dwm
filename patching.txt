@@ -1,0 +1,29 @@
+# Creating branch
+make clean && rm -f config.h && git reset --hard origin/master
+git branch $branchname
+
+# Switching branch
+git checkout $branchname
+
+#apply patch
+git apply patches/$patch
+
+patch < patches/$patch
+
+manually patch any failed patches
+
+# adding changed files
+git add dwm.c config.def.h #or any other chnaged files
+git commit -m $patchname
+
+# back to master branch
+git checkout master
+git merge $branchname -m $patchname
+
+make && sudo make clean install 
+
+git push origin master
+
+
+
+
