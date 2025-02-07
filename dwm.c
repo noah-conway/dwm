@@ -2007,7 +2007,6 @@ unmanage(Client *c, int destroyed)
 		XSetErrorHandler(xerror);
 		XUngrabServer(dpy);
 	}
-	free(c);
 
 	if (!s) {
 		arrange(m);
@@ -2019,6 +2018,8 @@ unmanage(Client *c, int destroyed)
   	}
  
 	}
+
+	free(c);
 }
 
 void
