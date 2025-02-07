@@ -8,6 +8,8 @@
     - Attachbelow
     - Statuspadding
     - Fullgaps
+    - Scratchpads
+    - Switchtotags
 */
 
 /* appearance */
