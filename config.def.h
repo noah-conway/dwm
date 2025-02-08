@@ -48,13 +48,11 @@ typedef struct {
 	const void *cmd;
 } Sp;
 const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
-const char *spcmd3[] = {"keepassxc", NULL };
+const char *spcmd2[] = {"st", "-n", "spmp", "-g", "144x41", "-e", "ncmpcpp", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
-	{"spranger",    spcmd2},
-	{"keepassxc",   spcmd3},
+	{"spmus",    spcmd2},
 };
 
 
@@ -76,7 +74,7 @@ static const Rule rules[] = {
 	{ "steam",   NULL,     NULL,           1 << 6,    0,          0,          0,           0,        -1 },
 	{ NULL,      NULL,     "Event Tester", 0,         0,          0,          0,           1,        -1 }, /* xev */
 	{ NULL,		  "spterm",		NULL,		       SPTAG(0),	0,         	1,			    1,           0,        -1 },
-  { NULL,		  "spfm",		NULL,	           SPTAG(1),	0,        	1,			    0,           0,        -1 },
+  { NULL,		  "spmp",		NULL,	           SPTAG(1),	0,        	1,			    0,           0,        -1 },
 };
 
 /* layout(s) */
@@ -166,7 +164,6 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY,            			      XK_y,  	   togglescratch,  {.ui = 0 } },
 	{ MODKEY,            			      XK_p,	     togglescratch,  {.ui = 1 } },
-	{ MODKEY,            			      XK_x,	     togglescratch,  {.ui = 2 } },
 	TAGKEYS(                        XK_a,                      0)
 	TAGKEYS(                        XK_s,                      1)
 	TAGKEYS(                        XK_d,                      2)
@@ -174,8 +171,6 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_w,                      4)
 	TAGKEYS(                        XK_e,                      5)
 	TAGKEYS(                        XK_g,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
