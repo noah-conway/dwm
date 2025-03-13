@@ -21,9 +21,9 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int splitstatus        = 1;        /* 1 for split status items */
 static const char *splitdelim        = ";";       /* Character used for separating status */
-static const int horizpadbar        = 2;        /* horizontal padding for statusbar */
-static const int vertpadbar         = 8;        /* vertical padding for statusbar */
-static const char *fonts[]          = { "monospace:size=10" };
+static const int horizpadbar        = 5;        /* horizontal padding for statusbar */
+static const int vertpadbar         = 12;        /* vertical padding for statusbar */
+static const char *fonts[]          = { "Symbols Nerd Font Mono:size=11:style=Regular", "Roberto Mono:size=11:style=Italic"};
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -47,18 +47,21 @@ typedef struct {
 	const char *name;
 	const void *cmd;
 } Sp;
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"st", "-n", "spmp", "-g", "144x41", "-e", "ncmpcpp", NULL };
+const char *spcmd1[] = {"st", "-n", "spterm", "-g", "95x76+1663+0", NULL };
+const char *spcmd2[] = {"st", "-n", "spmp", "-g", "95x26+1663+0", "-e", "ncmpcpp", NULL };
+const char *spcmd3[] = {"qpwgraph", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
 	{"spmus",    spcmd2},
+	{"qpwgraph",    spcmd3},
 };
 
 
 /* tagging */
-static const char *tags[] = { "a", "s", "d", "f", "w", "e", "g"};
-static const char *tagsalt[] = { "1", "2", "3", "4", "5", "6", "7"};
+static const char *tags[] = { "󰽧", "󰽡", "󰽨", "", "󰽦", "󰽣", "󰽥"};
+static const char *tagsalt[] = { "a", "s", "d", "f", "w", "e", "g"};
+static const char *tagsnum[] = { "1", "2", "3", "4", "5", "6", "7"};
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -70,11 +73,13 @@ static const Rule rules[] = {
 	{ "REAPER",  NULL,     NULL,           1,         0,          0,          0,           0,        -1 },
 	{ "QjackCtl",  NULL,     NULL,           0,       0,          1,          0,           0,        -1 },
 	{ "firefox", NULL,     NULL,           1 << 3,    1,          0,          0,          -1,        -1 },
-	{ "st",      NULL,     NULL,           0,         0,          0,          1,           0,        -1 },
+	{ "st",      NULL,     NULL,           0,         0,          0,          0,           0,        -1 },
+	{ "floating",      NULL,     NULL,           0,         0,          1,          0,           0,        -1 },
 	{ "steam",   NULL,     NULL,           1 << 6,    0,          0,          0,           0,        -1 },
 	{ NULL,      NULL,     "Event Tester", 0,         0,          0,          0,           1,        -1 }, /* xev */
 	{ NULL,		  "spterm",		NULL,		       SPTAG(0),	0,         	1,			    1,           0,        -1 },
   { NULL,		  "spmp",		NULL,	           SPTAG(1),	0,        	1,			    0,           0,        -1 },
+  { NULL,		  "qpwgraph",		NULL,	           SPTAG(2),	0,        	1,			    0,           0,        -1 },
 };
 
 /* layout(s) */
@@ -112,6 +117,8 @@ static const char *btcmd[] = { "dmenu-bluetooth", NULL};
 static const char *mailcmd[] = { "thunderbird", NULL};
 static const char *scrotcmd[] = { "flameshot", "gui", NULL};
 static const char *powercmd[] = { "powermenu.sh", NULL};
+static const char *dawcmd[] = { "reaper", "PIPEWIRE_LATENCY=128/48000", NULL };
+
 
 static const char *mpdtogglecmd[] = { "mpc", "toggle", NULL};
 static const char *mpdnextcmd[] = { "mpc", "next", NULL};
@@ -129,6 +136,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_i,      spawn,          {.v = browsercmd } },
 	{ MODKEY|ShiftMask,             XK_i,      spawn,          {.v = pbrowsercmd } },
+  { MODKEY,                       XK_r,      spawn,          {.v = dawcmd } },
 //	{ MODKEY,                       XK_m,      spawn,          {.v = mailcmd } },
 // { MODKEY,                       XK_a,      spawn,          {.v = audioswtchcmd } },
 	{ 0,                            XK_Print,  spawn,          {.v = scrotcmd } },
@@ -152,7 +160,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
@@ -164,6 +172,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY,            			      XK_y,  	   togglescratch,  {.ui = 0 } },
 	{ MODKEY,            			      XK_p,	     togglescratch,  {.ui = 1 } },
+	{ MODKEY,            			      XK_o,	     togglescratch,  {.ui = 2 } },
 	TAGKEYS(                        XK_a,                      0)
 	TAGKEYS(                        XK_s,                      1)
 	TAGKEYS(                        XK_d,                      2)
